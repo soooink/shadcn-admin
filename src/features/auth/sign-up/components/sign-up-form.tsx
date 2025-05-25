@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
+import { useTranslation } from 'react-i18next'
 
 type SignUpFormProps = HTMLAttributes<HTMLFormElement>
 
@@ -41,7 +42,7 @@ const formSchema = z
 
 export function SignUpForm({ className, ...props }: SignUpFormProps) {
   const [isLoading, setIsLoading] = useState(false)
-
+  const { t } = useTranslation("auth")
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -73,7 +74,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
           name='email'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t('signUp.email')}</FormLabel>
               <FormControl>
                 <Input placeholder='name@example.com' {...field} />
               </FormControl>
@@ -86,7 +87,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
           name='password'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>{t('signUp.password')}</FormLabel>
               <FormControl>
                 <PasswordInput placeholder='********' {...field} />
               </FormControl>
@@ -99,7 +100,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
           name='confirmPassword'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
+              <FormLabel>{t('signUp.confirmPassword')}</FormLabel>
               <FormControl>
                 <PasswordInput placeholder='********' {...field} />
               </FormControl>
@@ -108,7 +109,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
           )}
         />
         <Button className='mt-2' disabled={isLoading}>
-          Create Account
+          {t('signUp.createAccount')}
         </Button>
 
         <div className='relative my-2'>
@@ -117,7 +118,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
           </div>
           <div className='relative flex justify-center text-xs uppercase'>
             <span className='bg-background text-muted-foreground px-2'>
-              Or continue with
+              {t('signUp.orContinueWith')}
             </span>
           </div>
         </div>
@@ -129,7 +130,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
             type='button'
             disabled={isLoading}
           >
-            <IconBrandGithub className='h-4 w-4' /> GitHub
+            <IconBrandGithub className='h-4 w-4' /> {t('signUp.github')}
           </Button>
           <Button
             variant='outline'
@@ -137,7 +138,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
             type='button'
             disabled={isLoading}
           >
-            <IconBrandFacebook className='h-4 w-4' /> Facebook
+            <IconBrandFacebook className='h-4 w-4' /> {t('signUp.facebook')}
           </Button>
         </div>
       </form>

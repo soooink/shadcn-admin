@@ -24,9 +24,11 @@ import { Route as authSignInImport } from './routes/(auth)/sign-in'
 import { Route as authOtpImport } from './routes/(auth)/otp'
 import { Route as authForgotPasswordImport } from './routes/(auth)/forgot-password'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings/route'
+import { Route as AuthenticatedPluginsRouteImport } from './routes/_authenticated/plugins/route'
 import { Route as AuthenticatedUsersIndexImport } from './routes/_authenticated/users/index'
 import { Route as AuthenticatedTasksIndexImport } from './routes/_authenticated/tasks/index'
 import { Route as AuthenticatedSettingsIndexImport } from './routes/_authenticated/settings/index'
+import { Route as AuthenticatedPluginsIndexImport } from './routes/_authenticated/plugins/index'
 import { Route as AuthenticatedHelpCenterIndexImport } from './routes/_authenticated/help-center/index'
 import { Route as AuthenticatedChatsIndexImport } from './routes/_authenticated/chats/index'
 import { Route as AuthenticatedAppsIndexImport } from './routes/_authenticated/apps/index'
@@ -34,6 +36,7 @@ import { Route as AuthenticatedSettingsNotificationsImport } from './routes/_aut
 import { Route as AuthenticatedSettingsDisplayImport } from './routes/_authenticated/settings/display'
 import { Route as AuthenticatedSettingsAppearanceImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountImport } from './routes/_authenticated/settings/account'
+import { Route as AuthenticatedPluginsExampleImport } from './routes/_authenticated/plugins/example'
 
 // Create/Update Routes
 
@@ -116,6 +119,12 @@ const AuthenticatedSettingsRouteRoute = AuthenticatedSettingsRouteImport.update(
   } as any,
 )
 
+const AuthenticatedPluginsRouteRoute = AuthenticatedPluginsRouteImport.update({
+  id: '/plugins',
+  path: '/plugins',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+
 const AuthenticatedUsersIndexRoute = AuthenticatedUsersIndexImport.update({
   id: '/users/',
   path: '/users/',
@@ -135,6 +144,12 @@ const AuthenticatedSettingsIndexRoute = AuthenticatedSettingsIndexImport.update(
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
   } as any,
 )
+
+const AuthenticatedPluginsIndexRoute = AuthenticatedPluginsIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedPluginsRouteRoute,
+} as any)
 
 const AuthenticatedHelpCenterIndexRoute =
   AuthenticatedHelpCenterIndexImport.update({
@@ -183,6 +198,13 @@ const AuthenticatedSettingsAccountRoute =
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
   } as any)
 
+const AuthenticatedPluginsExampleRoute =
+  AuthenticatedPluginsExampleImport.update({
+    id: '/example',
+    path: '/example',
+    getParentRoute: () => AuthenticatedPluginsRouteRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -193,6 +215,13 @@ declare module '@tanstack/react-router' {
       fullPath: ''
       preLoaderRoute: typeof AuthenticatedRouteImport
       parentRoute: typeof rootRoute
+    }
+    '/_authenticated/plugins': {
+      id: '/_authenticated/plugins'
+      path: '/plugins'
+      fullPath: '/plugins'
+      preLoaderRoute: typeof AuthenticatedPluginsRouteImport
+      parentRoute: typeof AuthenticatedRouteImport
     }
     '/_authenticated/settings': {
       id: '/_authenticated/settings'
@@ -278,6 +307,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexImport
       parentRoute: typeof AuthenticatedRouteImport
     }
+    '/_authenticated/plugins/example': {
+      id: '/_authenticated/plugins/example'
+      path: '/example'
+      fullPath: '/plugins/example'
+      preLoaderRoute: typeof AuthenticatedPluginsExampleImport
+      parentRoute: typeof AuthenticatedPluginsRouteImport
+    }
     '/_authenticated/settings/account': {
       id: '/_authenticated/settings/account'
       path: '/account'
@@ -327,6 +363,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHelpCenterIndexImport
       parentRoute: typeof AuthenticatedRouteImport
     }
+    '/_authenticated/plugins/': {
+      id: '/_authenticated/plugins/'
+      path: '/'
+      fullPath: '/plugins/'
+      preLoaderRoute: typeof AuthenticatedPluginsIndexImport
+      parentRoute: typeof AuthenticatedPluginsRouteImport
+    }
     '/_authenticated/settings/': {
       id: '/_authenticated/settings/'
       path: '/'
@@ -353,6 +396,22 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
+interface AuthenticatedPluginsRouteRouteChildren {
+  AuthenticatedPluginsExampleRoute: typeof AuthenticatedPluginsExampleRoute
+  AuthenticatedPluginsIndexRoute: typeof AuthenticatedPluginsIndexRoute
+}
+
+const AuthenticatedPluginsRouteRouteChildren: AuthenticatedPluginsRouteRouteChildren =
+  {
+    AuthenticatedPluginsExampleRoute: AuthenticatedPluginsExampleRoute,
+    AuthenticatedPluginsIndexRoute: AuthenticatedPluginsIndexRoute,
+  }
+
+const AuthenticatedPluginsRouteRouteWithChildren =
+  AuthenticatedPluginsRouteRoute._addFileChildren(
+    AuthenticatedPluginsRouteRouteChildren,
+  )
+
 interface AuthenticatedSettingsRouteRouteChildren {
   AuthenticatedSettingsAccountRoute: typeof AuthenticatedSettingsAccountRoute
   AuthenticatedSettingsAppearanceRoute: typeof AuthenticatedSettingsAppearanceRoute
@@ -377,6 +436,7 @@ const AuthenticatedSettingsRouteRouteWithChildren =
   )
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedPluginsRouteRoute: typeof AuthenticatedPluginsRouteRouteWithChildren
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
@@ -387,6 +447,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedPluginsRouteRoute: AuthenticatedPluginsRouteRouteWithChildren,
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
@@ -401,6 +462,7 @@ const AuthenticatedRouteRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '': typeof AuthenticatedRouteRouteWithChildren
+  '/plugins': typeof AuthenticatedPluginsRouteRouteWithChildren
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/forgot-password': typeof authForgotPasswordRoute
   '/otp': typeof authOtpRoute
@@ -413,6 +475,7 @@ export interface FileRoutesByFullPath {
   '/500': typeof errors500Route
   '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
+  '/plugins/example': typeof AuthenticatedPluginsExampleRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -420,6 +483,7 @@ export interface FileRoutesByFullPath {
   '/apps': typeof AuthenticatedAppsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
+  '/plugins/': typeof AuthenticatedPluginsIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
@@ -437,6 +501,7 @@ export interface FileRoutesByTo {
   '/500': typeof errors500Route
   '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
+  '/plugins/example': typeof AuthenticatedPluginsExampleRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -444,6 +509,7 @@ export interface FileRoutesByTo {
   '/apps': typeof AuthenticatedAppsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
+  '/plugins': typeof AuthenticatedPluginsIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
@@ -452,6 +518,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_authenticated/plugins': typeof AuthenticatedPluginsRouteRouteWithChildren
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
   '/(auth)/otp': typeof authOtpRoute
@@ -464,6 +531,7 @@ export interface FileRoutesById {
   '/(errors)/500': typeof errors500Route
   '/(errors)/503': typeof errors503Route
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/plugins/example': typeof AuthenticatedPluginsExampleRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -471,6 +539,7 @@ export interface FileRoutesById {
   '/_authenticated/apps/': typeof AuthenticatedAppsIndexRoute
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
+  '/_authenticated/plugins/': typeof AuthenticatedPluginsIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
@@ -480,6 +549,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | ''
+    | '/plugins'
     | '/settings'
     | '/forgot-password'
     | '/otp'
@@ -492,6 +562,7 @@ export interface FileRouteTypes {
     | '/500'
     | '/503'
     | '/'
+    | '/plugins/example'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
@@ -499,6 +570,7 @@ export interface FileRouteTypes {
     | '/apps'
     | '/chats'
     | '/help-center'
+    | '/plugins/'
     | '/settings/'
     | '/tasks'
     | '/users'
@@ -515,6 +587,7 @@ export interface FileRouteTypes {
     | '/500'
     | '/503'
     | '/'
+    | '/plugins/example'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
@@ -522,12 +595,14 @@ export interface FileRouteTypes {
     | '/apps'
     | '/chats'
     | '/help-center'
+    | '/plugins'
     | '/settings'
     | '/tasks'
     | '/users'
   id:
     | '__root__'
     | '/_authenticated'
+    | '/_authenticated/plugins'
     | '/_authenticated/settings'
     | '/(auth)/forgot-password'
     | '/(auth)/otp'
@@ -540,6 +615,7 @@ export interface FileRouteTypes {
     | '/(errors)/500'
     | '/(errors)/503'
     | '/_authenticated/'
+    | '/_authenticated/plugins/example'
     | '/_authenticated/settings/account'
     | '/_authenticated/settings/appearance'
     | '/_authenticated/settings/display'
@@ -547,6 +623,7 @@ export interface FileRouteTypes {
     | '/_authenticated/apps/'
     | '/_authenticated/chats/'
     | '/_authenticated/help-center/'
+    | '/_authenticated/plugins/'
     | '/_authenticated/settings/'
     | '/_authenticated/tasks/'
     | '/_authenticated/users/'
@@ -607,6 +684,7 @@ export const routeTree = rootRoute
     "/_authenticated": {
       "filePath": "_authenticated/route.tsx",
       "children": [
+        "/_authenticated/plugins",
         "/_authenticated/settings",
         "/_authenticated/",
         "/_authenticated/apps/",
@@ -614,6 +692,14 @@ export const routeTree = rootRoute
         "/_authenticated/help-center/",
         "/_authenticated/tasks/",
         "/_authenticated/users/"
+      ]
+    },
+    "/_authenticated/plugins": {
+      "filePath": "_authenticated/plugins/route.tsx",
+      "parent": "/_authenticated",
+      "children": [
+        "/_authenticated/plugins/example",
+        "/_authenticated/plugins/"
       ]
     },
     "/_authenticated/settings": {
@@ -661,6 +747,10 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/index.tsx",
       "parent": "/_authenticated"
     },
+    "/_authenticated/plugins/example": {
+      "filePath": "_authenticated/plugins/example.tsx",
+      "parent": "/_authenticated/plugins"
+    },
     "/_authenticated/settings/account": {
       "filePath": "_authenticated/settings/account.tsx",
       "parent": "/_authenticated/settings"
@@ -688,6 +778,10 @@ export const routeTree = rootRoute
     "/_authenticated/help-center/": {
       "filePath": "_authenticated/help-center/index.tsx",
       "parent": "/_authenticated"
+    },
+    "/_authenticated/plugins/": {
+      "filePath": "_authenticated/plugins/index.tsx",
+      "parent": "/_authenticated/plugins"
     },
     "/_authenticated/settings/": {
       "filePath": "_authenticated/settings/index.tsx",

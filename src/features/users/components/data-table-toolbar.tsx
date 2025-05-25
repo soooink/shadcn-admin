@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { userTypes } from '../data/data'
 import { DataTableFacetedFilter } from './data-table-faceted-filter'
 import { DataTableViewOptions } from './data-table-view-options'
+import { useTranslation } from 'react-i18next'
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -14,12 +15,12 @@ export function DataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
-
+const { t } = useTranslation('users')
   return (
     <div className='flex items-center justify-between'>
       <div className='flex flex-1 flex-col-reverse items-start gap-y-2 sm:flex-row sm:items-center sm:space-x-2'>
         <Input
-          placeholder='Filter users...'
+          placeholder={t('data-table.filter')}
           value={
             (table.getColumn('username')?.getFilterValue() as string) ?? ''
           }
@@ -32,19 +33,19 @@ export function DataTableToolbar<TData>({
           {table.getColumn('status') && (
             <DataTableFacetedFilter
               column={table.getColumn('status')}
-              title='Status'
+              title={t('data-table.status')}
               options={[
-                { label: 'Active', value: 'active' },
-                { label: 'Inactive', value: 'inactive' },
-                { label: 'Invited', value: 'invited' },
-                { label: 'Suspended', value: 'suspended' },
+                { label: t('data-table.Active'), value: 'active' },
+                { label: t('data-table.Inactive'), value: 'inactive' },
+                { label: t('data-table.Invited'), value: 'invited' },
+                { label: t('data-table.Suspended'), value: 'suspended' },
               ]}
             />
           )}
           {table.getColumn('role') && (
             <DataTableFacetedFilter
               column={table.getColumn('role')}
-              title='Role'
+              title={t('data-table.role')}
               options={userTypes.map((t) => ({ ...t }))}
             />
           )}
@@ -55,7 +56,7 @@ export function DataTableToolbar<TData>({
             onClick={() => table.resetColumnFilters()}
             className='h-8 px-2 lg:px-3'
           >
-            Reset
+            {t('data-table.reset')}
             <Cross2Icon className='ml-2 h-4 w-4' />
           </Button>
         )}

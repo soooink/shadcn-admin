@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils'
 import { SearchProvider } from '@/context/search-context'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/layout/app-sidebar'
+import { CommandMenu } from '@/components/command-menu'
 import SkipToMain from '@/components/skip-to-main'
 
 export const Route = createFileRoute('/_authenticated')({
@@ -31,6 +32,7 @@ function RouteComponent() {
         >
           <Outlet />
         </div>
+        <CommandMenu />
       </SidebarProvider>
     </SearchProvider>
   )

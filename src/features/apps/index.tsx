@@ -19,7 +19,9 @@ import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { LanguageSwitcher } from '@/components/language-switcher'
 import { apps } from './data/apps'
+import { useTranslation } from 'react-i18next'
 
 const appText = new Map<string, string>([
   ['all', 'All Apps'],
@@ -31,7 +33,7 @@ export default function Apps() {
   const [sort, setSort] = useState('ascending')
   const [appType, setAppType] = useState('all')
   const [searchTerm, setSearchTerm] = useState('')
-
+  const { t } = useTranslation('apps')
   const filteredApps = apps
     .sort((a, b) =>
       sort === 'ascending'
@@ -54,6 +56,7 @@ export default function Apps() {
         <Search />
         <div className='ml-auto flex items-center gap-4'>
           <ThemeSwitch />
+          <LanguageSwitcher />
           <ProfileDropdown />
         </div>
       </Header>
@@ -62,10 +65,10 @@ export default function Apps() {
       <Main fixed>
         <div>
           <h1 className='text-2xl font-bold tracking-tight'>
-            App Integrations
+            {t('appIntegrations')}
           </h1>
           <p className='text-muted-foreground'>
-            Here&apos;s a list of your apps for the integration!
+            {t('hereIsAListOfYourAppsForTheIntegration')}
           </p>
         </div>
         <div className='my-4 flex items-end justify-between sm:my-0 sm:items-center'>
@@ -81,9 +84,9 @@ export default function Apps() {
                 <SelectValue>{appText.get(appType)}</SelectValue>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value='all'>All Apps</SelectItem>
-                <SelectItem value='connected'>Connected</SelectItem>
-                <SelectItem value='notConnected'>Not Connected</SelectItem>
+                <SelectItem value='all'>{t('allApps')}</SelectItem>
+                <SelectItem value='connected'>{t('connected')}</SelectItem>
+                <SelectItem value='notConnected'>{t('notConnected')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -98,13 +101,13 @@ export default function Apps() {
               <SelectItem value='ascending'>
                 <div className='flex items-center gap-4'>
                   <IconSortAscendingLetters size={16} />
-                  <span>Ascending</span>
+                  <span>{t('ascending')}</span>
                 </div>
               </SelectItem>
               <SelectItem value='descending'>
                 <div className='flex items-center gap-4'>
                   <IconSortDescendingLetters size={16} />
-                  <span>Descending</span>
+                  <span>{t('descending')}</span>
                 </div>
               </SelectItem>
             </SelectContent>
@@ -128,7 +131,7 @@ export default function Apps() {
                   size='sm'
                   className={`${app.connected ? 'border border-blue-300 bg-blue-50 hover:bg-blue-100 dark:border-blue-700 dark:bg-blue-950 dark:hover:bg-blue-900' : ''}`}
                 >
-                  {app.connected ? 'Connected' : 'Connect'}
+                  {app.connected ? t('connected') : t('connect')}
                 </Button>
               </div>
               <div>

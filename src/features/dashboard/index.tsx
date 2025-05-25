@@ -13,10 +13,13 @@ import { TopNav } from '@/components/layout/top-nav'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { LanguageSwitcher } from '@/components/language-switcher'
 import { Overview } from './components/overview'
 import { RecentSales } from './components/recent-sales'
+import { useTranslation } from 'react-i18next'
 
 export default function Dashboard() {
+  const { t } = useTranslation("dashboard")
   return (
     <>
       {/* ===== Top Heading ===== */}
@@ -25,6 +28,7 @@ export default function Dashboard() {
         <div className='ml-auto flex items-center space-x-4'>
           <Search />
           <ThemeSwitch />
+          <LanguageSwitcher />
           <ProfileDropdown />
         </div>
       </Header>
@@ -32,9 +36,9 @@ export default function Dashboard() {
       {/* ===== Main ===== */}
       <Main>
         <div className='mb-2 flex items-center justify-between space-y-2'>
-          <h1 className='text-2xl font-bold tracking-tight'>Dashboard</h1>
+          <h1 className='text-2xl font-bold tracking-tight'>{t('dashboard')}</h1>
           <div className='flex items-center space-x-2'>
-            <Button>Download</Button>
+            <Button>{t('download')}</Button>
           </div>
         </div>
         <Tabs
@@ -44,15 +48,15 @@ export default function Dashboard() {
         >
           <div className='w-full overflow-x-auto pb-2'>
             <TabsList>
-              <TabsTrigger value='overview'>Overview</TabsTrigger>
+              <TabsTrigger value='overview'>{t('overview')}</TabsTrigger>
               <TabsTrigger value='analytics' disabled>
-                Analytics
+                {t('analytics')}
               </TabsTrigger>
               <TabsTrigger value='reports' disabled>
-                Reports
+                {t('reports')}
               </TabsTrigger>
               <TabsTrigger value='notifications' disabled>
-                Notifications
+                {t('notifications')}
               </TabsTrigger>
             </TabsList>
           </div>
@@ -61,7 +65,7 @@ export default function Dashboard() {
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>
-                    Total Revenue
+                    {t('totalRevenue')}
                   </CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -86,7 +90,7 @@ export default function Dashboard() {
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>
-                    Subscriptions
+                    {t('subscriptions')}
                   </CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -112,7 +116,7 @@ export default function Dashboard() {
               </Card>
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>Sales</CardTitle>
+                  <CardTitle className='text-sm font-medium'>{t('sales')}</CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     viewBox='0 0 24 24'
@@ -137,7 +141,7 @@ export default function Dashboard() {
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>
-                    Active Now
+                    {t('activeNow')}
                   </CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -163,7 +167,7 @@ export default function Dashboard() {
             <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
               <Card className='col-span-1 lg:col-span-4'>
                 <CardHeader>
-                  <CardTitle>Overview</CardTitle>
+                  <CardTitle>{t('overview')}</CardTitle>
                 </CardHeader>
                 <CardContent className='pl-2'>
                   <Overview />
@@ -171,7 +175,7 @@ export default function Dashboard() {
               </Card>
               <Card className='col-span-1 lg:col-span-3'>
                 <CardHeader>
-                  <CardTitle>Recent Sales</CardTitle>
+                  <CardTitle>{t('recentSales')}</CardTitle>
                   <CardDescription>
                     You made 265 sales this month.
                   </CardDescription>

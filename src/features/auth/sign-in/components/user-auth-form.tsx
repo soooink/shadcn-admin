@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
+import { useTranslation } from 'react-i18next'
 
 type UserAuthFormProps = HTMLAttributes<HTMLFormElement>
 
@@ -36,7 +37,7 @@ const formSchema = z.object({
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState(false)
-
+  const { t } = useTranslation("auth")
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -67,7 +68,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           name='email'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t('signIn.email')}</FormLabel>
               <FormControl>
                 <Input placeholder='name@example.com' {...field} />
               </FormControl>
@@ -80,7 +81,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           name='password'
           render={({ field }) => (
             <FormItem className='relative'>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>{t('signIn.password')}</FormLabel>
               <FormControl>
                 <PasswordInput placeholder='********' {...field} />
               </FormControl>
@@ -89,13 +90,13 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                 to='/forgot-password'
                 className='text-muted-foreground absolute -top-0.5 right-0 text-sm font-medium hover:opacity-75'
               >
-                Forgot password?
+                {t('signIn.forgotPassword')}
               </Link>
             </FormItem>
           )}
         />
         <Button className='mt-2' disabled={isLoading}>
-          Login
+          {t('signIn.login')}
         </Button>
 
         <div className='relative my-2'>
@@ -104,17 +105,17 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </div>
           <div className='relative flex justify-center text-xs uppercase'>
             <span className='bg-background text-muted-foreground px-2'>
-              Or continue with
+              {t('signIn.orContinueWith')}
             </span>
           </div>
         </div>
 
         <div className='grid grid-cols-2 gap-2'>
           <Button variant='outline' type='button' disabled={isLoading}>
-            <IconBrandGithub className='h-4 w-4' /> GitHub
+            <IconBrandGithub className='h-4 w-4' /> {t('signIn.github')}
           </Button>
           <Button variant='outline' type='button' disabled={isLoading}>
-            <IconBrandFacebook className='h-4 w-4' /> Facebook
+            <IconBrandFacebook className='h-4 w-4' /> {t('signIn.facebook')}
           </Button>
         </div>
       </form>

@@ -30,6 +30,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { useTranslation } from 'react-i18next'
 
 const languages = [
   { label: 'English', value: 'en' },
@@ -68,6 +69,7 @@ const defaultValues: Partial<AccountFormValues> = {
 }
 
 export function AccountForm() {
+    const { t } = useTranslation('settings')
   const form = useForm<AccountFormValues>({
     resolver: zodResolver(accountFormSchema),
     defaultValues,
@@ -85,13 +87,12 @@ export function AccountForm() {
           name='name'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>{t('accountForm.name')}</FormLabel>
               <FormControl>
-                <Input placeholder='Your name' {...field} />
+                <Input placeholder={t('accountForm.msgName')} {...field} />
               </FormControl>
               <FormDescription>
-                This is the name that will be displayed on your profile and in
-                emails.
+                {t('accountForm.nameDescription')}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -102,7 +103,7 @@ export function AccountForm() {
           name='dob'
           render={({ field }) => (
             <FormItem className='flex flex-col'>
-              <FormLabel>Date of birth</FormLabel>
+              <FormLabel>{t('accountForm.dob')}</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -116,7 +117,7 @@ export function AccountForm() {
                       {field.value ? (
                         format(field.value, 'MMM d, yyyy')
                       ) : (
-                        <span>Pick a date</span>
+                        <span>{t('accountForm.msgDob')}</span>
                       )}
                       <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
                     </Button>
@@ -134,7 +135,7 @@ export function AccountForm() {
                 </PopoverContent>
               </Popover>
               <FormDescription>
-                Your date of birth is used to calculate your age.
+                {t('accountForm.msgDobDescription')}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -145,7 +146,7 @@ export function AccountForm() {
           name='language'
           render={({ field }) => (
             <FormItem className='flex flex-col'>
-              <FormLabel>Language</FormLabel>
+              <FormLabel>{t('accountForm.language')}</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -161,15 +162,14 @@ export function AccountForm() {
                         ? languages.find(
                             (language) => language.value === field.value
                           )?.label
-                        : 'Select language'}
-                      <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                        : t('accountForm.msgLanguage')}<CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
                 <PopoverContent className='w-[200px] p-0'>
                   <Command>
                     <CommandInput placeholder='Search language...' />
-                    <CommandEmpty>No language found.</CommandEmpty>
+                    <CommandEmpty>{t('accountForm.msgLanguageEmpty')}</CommandEmpty>
                     <CommandGroup>
                       <CommandList>
                         {languages.map((language) => (
@@ -197,13 +197,13 @@ export function AccountForm() {
                 </PopoverContent>
               </Popover>
               <FormDescription>
-                This is the language that will be used in the dashboard.
+                {t('accountForm.msgLanguageDescription')}
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type='submit'>Update account</Button>
+        <Button type='submit'>{t('accountForm.updateAccount')}</Button>
       </form>
     </Form>
   )

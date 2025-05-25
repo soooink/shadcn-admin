@@ -18,6 +18,7 @@ import {
 import { useTasks } from '../context/tasks-context'
 import { labels } from '../data/data'
 import { taskSchema } from '../data/schema'
+import { useTranslation } from 'react-i18next'
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
@@ -26,6 +27,7 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
+    const { t } = useTranslation("tasks")
   const task = taskSchema.parse(row.original)
 
   const { setOpen, setCurrentRow } = useTasks()
@@ -38,7 +40,7 @@ export function DataTableRowActions<TData>({
           className='data-[state=open]:bg-muted flex h-8 w-8 p-0'
         >
           <DotsHorizontalIcon className='h-4 w-4' />
-          <span className='sr-only'>Open menu</span>
+          <span className='sr-only'>{t("openMenu")}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
@@ -48,13 +50,13 @@ export function DataTableRowActions<TData>({
             setOpen('update')
           }}
         >
-          Edit
+          {t("edit")}
         </DropdownMenuItem>
-        <DropdownMenuItem disabled>Make a copy</DropdownMenuItem>
-        <DropdownMenuItem disabled>Favorite</DropdownMenuItem>
+        <DropdownMenuItem disabled>{t("makeACopy")}</DropdownMenuItem>
+        <DropdownMenuItem disabled>{t("favorite")}</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
+          <DropdownMenuSubTrigger>{t("labels")}</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
             <DropdownMenuRadioGroup value={task.label}>
               {labels.map((label) => (
@@ -72,7 +74,7 @@ export function DataTableRowActions<TData>({
             setOpen('delete')
           }}
         >
-          Delete
+          {t("delete")}
           <DropdownMenuShortcut>
             <IconTrash size={16} />
           </DropdownMenuShortcut>

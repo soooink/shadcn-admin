@@ -24,6 +24,7 @@ import {
 } from '@/components/ui/sheet'
 import { SelectDropdown } from '@/components/select-dropdown'
 import { Task } from '../data/schema'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   open: boolean
@@ -40,6 +41,7 @@ const formSchema = z.object({
 type TasksForm = z.infer<typeof formSchema>
 
 export function TasksMutateDrawer({ open, onOpenChange, currentRow }: Props) {
+    const { t } = useTranslation("tasks")
   const isUpdate = !!currentRow
 
   const form = useForm<TasksForm>({
@@ -69,12 +71,12 @@ export function TasksMutateDrawer({ open, onOpenChange, currentRow }: Props) {
     >
       <SheetContent className='flex flex-col'>
         <SheetHeader className='text-left'>
-          <SheetTitle>{isUpdate ? 'Update' : 'Create'} Task</SheetTitle>
+          <SheetTitle>{isUpdate ? t("update") : t("create")}</SheetTitle>
           <SheetDescription>
             {isUpdate
-              ? 'Update the task by providing necessary info.'
-              : 'Add a new task by providing necessary info.'}
-            Click save when you&apos;re done.
+              ? t("update.description")
+              : t("create.description")}
+            {t("clickSave")}
           </SheetDescription>
         </SheetHeader>
         <Form {...form}>
@@ -88,9 +90,9 @@ export function TasksMutateDrawer({ open, onOpenChange, currentRow }: Props) {
               name='title'
               render={({ field }) => (
                 <FormItem className='space-y-1'>
-                  <FormLabel>Title</FormLabel>
+                  <FormLabel>{t("title")}</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder='Enter a title' />
+                    <Input {...field} placeholder={t("titlePlaceholder")} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -101,17 +103,17 @@ export function TasksMutateDrawer({ open, onOpenChange, currentRow }: Props) {
               name='status'
               render={({ field }) => (
                 <FormItem className='space-y-1'>
-                  <FormLabel>Status</FormLabel>
+                  <FormLabel>{t("status")}</FormLabel>
                   <SelectDropdown
                     defaultValue={field.value}
                     onValueChange={field.onChange}
-                    placeholder='Select dropdown'
+                    placeholder={t("statusPlaceholder")}
                     items={[
-                      { label: 'In Progress', value: 'in progress' },
-                      { label: 'Backlog', value: 'backlog' },
-                      { label: 'Todo', value: 'todo' },
-                      { label: 'Canceled', value: 'canceled' },
-                      { label: 'Done', value: 'done' },
+                      { label: t("statusInProgress"), value: 'in progress' },
+                      { label: t("statusBacklog"), value: 'backlog' },
+                      { label: t("statusTodo"), value: 'todo' },
+                      { label: t("statusCanceled"), value: 'canceled' },
+                      { label: t("statusDone"), value: 'done' },
                     ]}
                   />
                   <FormMessage />
@@ -123,7 +125,7 @@ export function TasksMutateDrawer({ open, onOpenChange, currentRow }: Props) {
               name='label'
               render={({ field }) => (
                 <FormItem className='relative space-y-3'>
-                  <FormLabel>Label</FormLabel>
+                  <FormLabel>{t("label")}</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
@@ -161,7 +163,7 @@ export function TasksMutateDrawer({ open, onOpenChange, currentRow }: Props) {
               name='priority'
               render={({ field }) => (
                 <FormItem className='relative space-y-3'>
-                  <FormLabel>Priority</FormLabel>
+                  <FormLabel>{t("priority")}</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
@@ -196,10 +198,10 @@ export function TasksMutateDrawer({ open, onOpenChange, currentRow }: Props) {
         </Form>
         <SheetFooter className='gap-2'>
           <SheetClose asChild>
-            <Button variant='outline'>Close</Button>
+            <Button variant='outline'>{t("close")}</Button>
           </SheetClose>
           <Button form='tasks-form' type='submit'>
-            Save changes
+            {t("save")}
           </Button>
         </SheetFooter>
       </SheetContent>

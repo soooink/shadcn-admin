@@ -7,8 +7,13 @@ import { callTypes, userTypes } from '../data/data'
 import { User } from '../data/schema'
 import { DataTableColumnHeader } from './data-table-column-header'
 import { DataTableRowActions } from './data-table-row-actions'
+import { useTranslation } from 'react-i18next'
 
-export const columns: ColumnDef<User>[] = [
+export const useUserColumns =(): ColumnDef<User>[] => {
+
+  const { t } = useTranslation('users')
+
+  return [
   {
     id: 'select',
     header: ({ table }) => (
@@ -18,7 +23,7 @@ export const columns: ColumnDef<User>[] = [
           (table.getIsSomePageRowsSelected() && 'indeterminate')
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label='Select all'
+        aria-label={t("select")}
         className='translate-y-[2px]'
       />
     ),
@@ -32,7 +37,7 @@ export const columns: ColumnDef<User>[] = [
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label='Select row'
+        aria-label={t("select")}
         className='translate-y-[2px]'
       />
     ),
@@ -42,7 +47,7 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: 'username',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Username' />
+      <DataTableColumnHeader column={column} title={t("username")} />
     ),
     cell: ({ row }) => (
       <LongText className='max-w-36'>{row.getValue('username')}</LongText>
@@ -59,7 +64,7 @@ export const columns: ColumnDef<User>[] = [
   {
     id: 'fullName',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Name' />
+      <DataTableColumnHeader column={column} title={t("fullName")} />
     ),
     cell: ({ row }) => {
       const { firstName, lastName } = row.original
@@ -71,7 +76,7 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: 'email',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Email' />
+      <DataTableColumnHeader column={column} title={t("email")} />
     ),
     cell: ({ row }) => (
       <div className='w-fit text-nowrap'>{row.getValue('email')}</div>
@@ -80,7 +85,7 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: 'phoneNumber',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Phone Number' />
+      <DataTableColumnHeader column={column} title={t("phoneNumber")} />
     ),
     cell: ({ row }) => <div>{row.getValue('phoneNumber')}</div>,
     enableSorting: false,
@@ -88,7 +93,7 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: 'status',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Status' />
+      <DataTableColumnHeader column={column} title={t("status")} />
     ),
     cell: ({ row }) => {
       const { status } = row.original
@@ -110,7 +115,7 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: 'role',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Role' />
+      <DataTableColumnHeader column={column} title={t("role")} />
     ),
     cell: ({ row }) => {
       const { role } = row.original
@@ -140,3 +145,4 @@ export const columns: ColumnDef<User>[] = [
     cell: DataTableRowActions,
   },
 ]
+}

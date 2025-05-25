@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-
+import { useTranslation } from 'react-i18next'
 interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>
@@ -26,6 +26,7 @@ export function DataTableColumnHeader<TData, TValue>({
   title,
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
+  const { t } = useTranslation('users')
   if (!column.getCanSort()) {
     return <div className={cn(className)}>{title}</div>
   }
@@ -52,18 +53,18 @@ export function DataTableColumnHeader<TData, TValue>({
         <DropdownMenuContent align='start'>
           <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
             <ArrowUpIcon className='text-muted-foreground/70 mr-2 h-3.5 w-3.5' />
-            Asc
+            {t('data-table.asc')}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
             <ArrowDownIcon className='text-muted-foreground/70 mr-2 h-3.5 w-3.5' />
-            Desc
+            {t('data-table.desc')}
           </DropdownMenuItem>
           {column.getCanHide() && (
             <>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
                 <EyeNoneIcon className='text-muted-foreground/70 mr-2 h-3.5 w-3.5' />
-                Hide
+                {t('data-table.hide')}
               </DropdownMenuItem>
             </>
           )}

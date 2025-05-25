@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useUsers } from '../context/users-context'
 import { User } from '../data/schema'
+import { useTranslation } from 'react-i18next'
 
 interface DataTableRowActionsProps {
   row: Row<User>
@@ -19,6 +20,7 @@ interface DataTableRowActionsProps {
 
 export function DataTableRowActions({ row }: DataTableRowActionsProps) {
   const { setOpen, setCurrentRow } = useUsers()
+const { t } = useTranslation('users')
   return (
     <>
       <DropdownMenu modal={false}>
@@ -28,7 +30,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
             className='data-[state=open]:bg-muted flex h-8 w-8 p-0'
           >
             <DotsHorizontalIcon className='h-4 w-4' />
-            <span className='sr-only'>Open menu</span>
+            <span className='sr-only'>{t('data-table.openMenu')}</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end' className='w-[160px]'>
@@ -38,7 +40,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
               setOpen('edit')
             }}
           >
-            Edit
+            {t('data-table.edit')}
             <DropdownMenuShortcut>
               <IconEdit size={16} />
             </DropdownMenuShortcut>
@@ -51,7 +53,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
             }}
             className='text-red-500!'
           >
-            Delete
+            {t('data-table.delete')}
             <DropdownMenuShortcut>
               <IconTrash size={16} />
             </DropdownMenuShortcut>

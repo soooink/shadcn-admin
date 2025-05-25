@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { ColumnDef } from '@tanstack/react-table'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -6,7 +7,10 @@ import { Task } from '../data/schema'
 import { DataTableColumnHeader } from './data-table-column-header'
 import { DataTableRowActions } from './data-table-row-actions'
 
-export const columns: ColumnDef<Task>[] = [
+
+export const useTaskColumns = (): ColumnDef<Task>[] => {
+  const { t } = useTranslation('tasks')
+  return [
   {
     id: 'select',
     header: ({ table }) => (
@@ -16,7 +20,7 @@ export const columns: ColumnDef<Task>[] = [
           (table.getIsSomePageRowsSelected() && 'indeterminate')
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label='Select all'
+        aria-label={t("select")}
         className='translate-y-[2px]'
       />
     ),
@@ -24,7 +28,7 @@ export const columns: ColumnDef<Task>[] = [
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label='Select row'
+        aria-label={t("select")}
         className='translate-y-[2px]'
       />
     ),
@@ -34,7 +38,7 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: 'id',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Task' />
+      <DataTableColumnHeader column={column} title={t("tasks")} />
     ),
     cell: ({ row }) => <div className='w-[80px]'>{row.getValue('id')}</div>,
     enableSorting: false,
@@ -43,7 +47,7 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: 'title',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Title' />
+      <DataTableColumnHeader column={column} title={t("title")} />
     ),
     cell: ({ row }) => {
       const label = labels.find((label) => label.value === row.original.label)
@@ -61,7 +65,7 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: 'status',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Status' />
+      <DataTableColumnHeader column={column} title={t("status")} />
     ),
     cell: ({ row }) => {
       const status = statuses.find(
@@ -88,7 +92,7 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: 'priority',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Priority' />
+      <DataTableColumnHeader column={column} title={t("priority")} />
     ),
     cell: ({ row }) => {
       const priority = priorities.find(
@@ -117,3 +121,4 @@ export const columns: ColumnDef<Task>[] = [
     cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ]
+}

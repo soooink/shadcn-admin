@@ -3,20 +3,25 @@ import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { columns } from './components/columns'
+import { useTaskColumns } from './components/columns'
 import { DataTable } from './components/data-table'
 import { TasksDialogs } from './components/tasks-dialogs'
 import { TasksPrimaryButtons } from './components/tasks-primary-buttons'
 import TasksProvider from './context/tasks-context'
 import { tasks } from './data/tasks'
+import { LanguageSwitcher } from '@/components/language-switcher'
+import { useTranslation } from 'react-i18next'
 
 export default function Tasks() {
+    const { t } = useTranslation("tasks")
+    const columns = useTaskColumns()
   return (
     <TasksProvider>
       <Header fixed>
         <Search />
         <div className='ml-auto flex items-center space-x-4'>
           <ThemeSwitch />
+          <LanguageSwitcher />
           <ProfileDropdown />
         </div>
       </Header>
@@ -24,9 +29,9 @@ export default function Tasks() {
       <Main>
         <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Tasks</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>{t('tasks')}</h2>
             <p className='text-muted-foreground'>
-              Here&apos;s a list of your tasks for this month!
+             {t("tasks.description")}
             </p>
           </div>
           <TasksPrimaryButtons />

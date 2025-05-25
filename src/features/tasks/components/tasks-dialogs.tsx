@@ -3,9 +3,11 @@ import { ConfirmDialog } from '@/components/confirm-dialog'
 import { useTasks } from '../context/tasks-context'
 import { TasksImportDialog } from './tasks-import-dialog'
 import { TasksMutateDrawer } from './tasks-mutate-drawer'
+import { useTranslation } from 'react-i18next'
 
 export function TasksDialogs() {
   const { open, setOpen, currentRow, setCurrentRow } = useTasks()
+  const { t } = useTranslation("tasks")
   return (
     <>
       <TasksMutateDrawer
@@ -51,19 +53,19 @@ export function TasksDialogs() {
               }, 500)
               showSubmittedData(
                 currentRow,
-                'The following task has been deleted:'
+                t("delete.description")
               )
             }}
             className='max-w-md'
-            title={`Delete this task: ${currentRow.id} ?`}
+            title={`${t("delete.deleteThisTask")} ${currentRow.id} ?`}
             desc={
               <>
-                You are about to delete a task with the ID{' '}
+                {t("delete.description")}
                 <strong>{currentRow.id}</strong>. <br />
-                This action cannot be undone.
+                {t("delete.warning")}
               </>
             }
-            confirmText='Delete'
+            confirmText={t("delete.title")}
           />
         </>
       )}

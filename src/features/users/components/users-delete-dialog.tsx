@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { User } from '../data/schema'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   open: boolean
@@ -17,6 +18,8 @@ interface Props {
 
 export function UsersDeleteDialog({ open, onOpenChange, currentRow }: Props) {
   const [value, setValue] = useState('')
+
+  const { t } = useTranslation("users")
 
   const handleDelete = () => {
     if (value.trim() !== currentRow.username) return
@@ -37,40 +40,40 @@ export function UsersDeleteDialog({ open, onOpenChange, currentRow }: Props) {
             className='stroke-destructive mr-1 inline-block'
             size={18}
           />{' '}
-          Delete User
+          {t("delete")}
         </span>
       }
       desc={
         <div className='space-y-4'>
           <p className='mb-2'>
-            Are you sure you want to delete{' '}
+            {t("deleteDescription")}
             <span className='font-bold'>{currentRow.username}</span>?
             <br />
-            This action will permanently remove the user with the role of{' '}
+            {t("deleteDescription2")}
             <span className='font-bold'>
               {currentRow.role.toUpperCase()}
             </span>{' '}
-            from the system. This cannot be undone.
+            {t("deleteDescription3")}
           </p>
 
           <Label className='my-2'>
-            Username:
+            {t("username")}:
             <Input
               value={value}
               onChange={(e) => setValue(e.target.value)}
-              placeholder='Enter username to confirm deletion.'
+              placeholder={t("usernamePlaceholder")}
             />
           </Label>
 
           <Alert variant='destructive'>
-            <AlertTitle>Warning!</AlertTitle>
+            <AlertTitle>{t("warning")}</AlertTitle>
             <AlertDescription>
-              Please be carefull, this operation can not be rolled back.
+              {t("deleteWarning")}
             </AlertDescription>
           </Alert>
         </div>
       }
-      confirmText='Delete'
+      confirmText={t("delete")}
       destructive
     />
   )

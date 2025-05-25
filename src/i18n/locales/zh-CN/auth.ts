@@ -1,0 +1,36 @@
+export default {
+    "signUp": 
+    {
+    "createAnAccount": "创建账号",
+    "enterEAPTCA": "请输入您的邮箱和密码以创建账号。",
+    "alreadyHaveAnAccount": "已有账号？",
+    "signIn": "登录",
+    "termsOfService": "服务条款",
+    "privacyPolicy": "隐私政策",
+    "github": "GitHub",
+    "facebook": "Facebook",
+    "createAccount": "创建账号",
+    "email": "邮箱",
+    "password": "密码",
+    "confirmPassword": "确认密码",
+    "orContinueWith": "或继续使用",
+    "byCreatingAnAccountYouAgreeToOur": "创建账号即表示您同意我们的",
+    "and": "和",
+    },
+    "signIn": {
+    "login": "登录",
+    "enterEAPTCA": "请输入您的邮箱和密码以登录您的账号。",
+    "termsOfService": "服务条款",
+    "privacyPolicy": "隐私政策",
+    "github": "GitHub",
+    "facebook": "Facebook",
+    "createAccount": "创建账号",
+    "email": "邮箱",
+    "password": "密码",
+    "confirmPassword": "确认密码",
+    "forgotPassword": "忘记密码？",
+    "orContinueWith": "或继续使用",
+    "byCreatingAnAccountYouAgreeToOur": "创建账号即表示您同意我们的 ",
+    "and": "和",
+    }
+}

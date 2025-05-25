@@ -17,14 +17,16 @@ import {
   CommandList,
   CommandSeparator,
 } from '@/components/ui/command'
-import { sidebarData } from './layout/data/sidebar-data'
+import { getSidebarData } from './layout/data/sidebar-data'
 import { ScrollArea } from './ui/scroll-area'
+import { useTranslation } from 'react-i18next'
 
 export function CommandMenu() {
   const navigate = useNavigate()
   const { setTheme } = useTheme()
   const { open, setOpen } = useSearch()
-
+  const { t } = useTranslation("common")
+  const { navGroups } = getSidebarData(t)
   const runCommand = React.useCallback(
     (command: () => unknown) => {
       setOpen(false)
@@ -38,17 +40,18 @@ export function CommandMenu() {
       <CommandInput placeholder='Type a command or search...' />
       <CommandList>
         <ScrollArea type='hover' className='h-72 pr-1'>
-          <CommandEmpty>No results found.</CommandEmpty>
-          {sidebarData.navGroups.map((group) => (
+          <CommandEmpty>{t('commandMenu.noResultsFound')}</CommandEmpty>
+          {navGroups.map((group) => (
             <CommandGroup key={group.title} heading={group.title}>
-              {group.items.map((navItem, i) => {
-                if (navItem.url)
+              {group.items.map((navItem) => {
+                // If the item has a direct URL, render it
+                if ('url' in navItem && navItem.url) {
                   return (
                     <CommandItem
-                      key={`${navItem.url}-${i}`}
+                      key={navItem.url as string}
                       value={navItem.title}
                       onSelect={() => {
-                        runCommand(() => navigate({ to: navItem.url }))
+                        runCommand(() => navigate({ to: navItem.url as string }))
                       }}
                     >
                       <div className='mr-2 flex h-4 w-4 items-center justify-center'>
@@ -57,36 +60,40 @@ export function CommandMenu() {
                       {navItem.title}
                     </CommandItem>
                   )
-
-                return navItem.items?.map((subItem, i) => (
-                  <CommandItem
-                    key={`${subItem.url}-${i}`}
-                    value={subItem.title}
-                    onSelect={() => {
-                      runCommand(() => navigate({ to: subItem.url }))
-                    }}
-                  >
-                    <div className='mr-2 flex h-4 w-4 items-center justify-center'>
-                      <IconArrowRightDashed className='text-muted-foreground/80 size-2' />
-                    </div>
-                    {subItem.title}
-                  </CommandItem>
-                ))
+                }
+                // If the item has items, render each submenu item
+                if ('items' in navItem && navItem.items) {
+                  return navItem.items.map((subItem) => (
+                    <CommandItem
+                      key={subItem.url as string}
+                      value={subItem.title}
+                      onSelect={() => {
+                        runCommand(() => navigate({ to: subItem.url as string }))
+                      }}
+                    >
+                      <div className='ml-4 mr-2 flex h-4 w-4 items-center justify-center'>
+                        <IconArrowRightDashed className='text-muted-foreground/80 size-2' />
+                      </div>
+                      {subItem.title}
+                    </CommandItem>
+                  ))
+                }
+                return null
               })}
             </CommandGroup>
           ))}
           <CommandSeparator />
           <CommandGroup heading='Theme'>
             <CommandItem onSelect={() => runCommand(() => setTheme('light'))}>
-              <IconSun /> <span>Light</span>
+              <IconSun /> <span>{t('commandMenu.light')}</span>
             </CommandItem>
             <CommandItem onSelect={() => runCommand(() => setTheme('dark'))}>
               <IconMoon className='scale-90' />
-              <span>Dark</span>
+              <span>{t('commandMenu.dark')}</span>
             </CommandItem>
             <CommandItem onSelect={() => runCommand(() => setTheme('system'))}>
               <IconDeviceLaptop />
-              <span>System</span>
+              <span>{t('commandMenu.system')}</span>
             </CommandItem>
           </CommandGroup>
         </ScrollArea>

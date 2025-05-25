@@ -21,6 +21,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { useTranslation } from 'react-i18next'
 
 const formSchema = z.object({
   file: z
@@ -44,7 +45,7 @@ export function TasksImportDialog({ open, onOpenChange }: Props) {
     resolver: zodResolver(formSchema),
     defaultValues: { file: undefined },
   })
-
+  const { t } = useTranslation("tasks")
   const fileRef = form.register('file')
 
   const onSubmit = () => {
@@ -56,7 +57,7 @@ export function TasksImportDialog({ open, onOpenChange }: Props) {
         size: file[0].size,
         type: file[0].type,
       }
-      showSubmittedData(fileDetails, 'You have imported the following file:')
+      showSubmittedData(fileDetails, t("importedFile"))
     }
     onOpenChange(false)
   }
@@ -71,9 +72,9 @@ export function TasksImportDialog({ open, onOpenChange }: Props) {
     >
       <DialogContent className='gap-2 sm:max-w-sm'>
         <DialogHeader className='text-left'>
-          <DialogTitle>Import Tasks</DialogTitle>
+          <DialogTitle>{t("import")}</DialogTitle>
           <DialogDescription>
-            Import tasks quickly from a CSV file.
+            {t("import.description")}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -83,7 +84,7 @@ export function TasksImportDialog({ open, onOpenChange }: Props) {
               name='file'
               render={() => (
                 <FormItem className='mb-2 space-y-1'>
-                  <FormLabel>File</FormLabel>
+                  <FormLabel>{t("file")}</FormLabel>
                   <FormControl>
                     <Input type='file' {...fileRef} className='h-8' />
                   </FormControl>
@@ -95,10 +96,10 @@ export function TasksImportDialog({ open, onOpenChange }: Props) {
         </Form>
         <DialogFooter className='gap-2'>
           <DialogClose asChild>
-            <Button variant='outline'>Close</Button>
+            <Button variant='outline'>{t("close")}</Button>
           </DialogClose>
           <Button type='submit' form='task-import-form'>
-            Import
+            {t("import")}
           </Button>
         </DialogFooter>
       </DialogContent>

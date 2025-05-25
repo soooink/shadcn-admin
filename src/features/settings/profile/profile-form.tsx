@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import { useTranslation } from 'react-i18next'
 
 const profileFormSchema = z.object({
   username: z
@@ -60,6 +61,7 @@ const defaultValues: Partial<ProfileFormValues> = {
 }
 
 export default function ProfileForm() {
+  const { t } = useTranslation('settings')
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
@@ -82,13 +84,12 @@ export default function ProfileForm() {
           name='username'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>{t('profileForm.username')}</FormLabel>
               <FormControl>
                 <Input placeholder='shadcn' {...field} />
               </FormControl>
               <FormDescription>
-                This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
+                {t('profileForm.nameDescription')}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -99,11 +100,11 @@ export default function ProfileForm() {
           name='email'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t('profileForm.email')}</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder='Select a verified email to display' />
+                    <SelectValue placeholder={t('profileForm.emailPlaceholder')} />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -113,8 +114,7 @@ export default function ProfileForm() {
                 </SelectContent>
               </Select>
               <FormDescription>
-                You can manage verified email addresses in your{' '}
-                <Link to='/'>email settings</Link>.
+                {t('profileForm.emailDescription')}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -125,17 +125,16 @@ export default function ProfileForm() {
           name='bio'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Bio</FormLabel>
+              <FormLabel>{t('profileForm.bio')}</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder='Tell us a little bit about yourself'
+                  placeholder='$('
                   className='resize-none'
                   {...field}
                 />
               </FormControl>
               <FormDescription>
-                You can <span>@mention</span> other users and organizations to
-                link to them.
+                {t('profileForm.bioDescription')}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -150,10 +149,10 @@ export default function ProfileForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className={cn(index !== 0 && 'sr-only')}>
-                    URLs
+                    {t('profileForm.urls')}
                   </FormLabel>
                   <FormDescription className={cn(index !== 0 && 'sr-only')}>
-                    Add links to your website, blog, or social media profiles.
+                    {t('profileForm.urlsDescription')}
                   </FormDescription>
                   <FormControl>
                     <Input {...field} />
@@ -170,10 +169,10 @@ export default function ProfileForm() {
             className='mt-2'
             onClick={() => append({ value: '' })}
           >
-            Add URL
+            {t('profileForm.addUrl')}
           </Button>
         </div>
-        <Button type='submit'>Update profile</Button>
+        <Button type='submit'>{t('profileForm.updateProfile')}</Button>
       </form>
     </Form>
   )
