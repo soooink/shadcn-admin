@@ -36,6 +36,8 @@ import { Route as AuthenticatedSettingsNotificationsImport } from './routes/_aut
 import { Route as AuthenticatedSettingsDisplayImport } from './routes/_authenticated/settings/display'
 import { Route as AuthenticatedSettingsAppearanceImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountImport } from './routes/_authenticated/settings/account'
+import { Route as AuthenticatedPluginsStoreImport } from './routes/_authenticated/plugins/store'
+import { Route as AuthenticatedPluginsSettingsImport } from './routes/_authenticated/plugins/settings'
 import { Route as AuthenticatedPluginsExampleImport } from './routes/_authenticated/plugins/example'
 
 // Create/Update Routes
@@ -198,6 +200,19 @@ const AuthenticatedSettingsAccountRoute =
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
   } as any)
 
+const AuthenticatedPluginsStoreRoute = AuthenticatedPluginsStoreImport.update({
+  id: '/store',
+  path: '/store',
+  getParentRoute: () => AuthenticatedPluginsRouteRoute,
+} as any)
+
+const AuthenticatedPluginsSettingsRoute =
+  AuthenticatedPluginsSettingsImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedPluginsRouteRoute,
+  } as any)
+
 const AuthenticatedPluginsExampleRoute =
   AuthenticatedPluginsExampleImport.update({
     id: '/example',
@@ -314,6 +329,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPluginsExampleImport
       parentRoute: typeof AuthenticatedPluginsRouteImport
     }
+    '/_authenticated/plugins/settings': {
+      id: '/_authenticated/plugins/settings'
+      path: '/settings'
+      fullPath: '/plugins/settings'
+      preLoaderRoute: typeof AuthenticatedPluginsSettingsImport
+      parentRoute: typeof AuthenticatedPluginsRouteImport
+    }
+    '/_authenticated/plugins/store': {
+      id: '/_authenticated/plugins/store'
+      path: '/store'
+      fullPath: '/plugins/store'
+      preLoaderRoute: typeof AuthenticatedPluginsStoreImport
+      parentRoute: typeof AuthenticatedPluginsRouteImport
+    }
     '/_authenticated/settings/account': {
       id: '/_authenticated/settings/account'
       path: '/account'
@@ -398,12 +427,16 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedPluginsRouteRouteChildren {
   AuthenticatedPluginsExampleRoute: typeof AuthenticatedPluginsExampleRoute
+  AuthenticatedPluginsSettingsRoute: typeof AuthenticatedPluginsSettingsRoute
+  AuthenticatedPluginsStoreRoute: typeof AuthenticatedPluginsStoreRoute
   AuthenticatedPluginsIndexRoute: typeof AuthenticatedPluginsIndexRoute
 }
 
 const AuthenticatedPluginsRouteRouteChildren: AuthenticatedPluginsRouteRouteChildren =
   {
     AuthenticatedPluginsExampleRoute: AuthenticatedPluginsExampleRoute,
+    AuthenticatedPluginsSettingsRoute: AuthenticatedPluginsSettingsRoute,
+    AuthenticatedPluginsStoreRoute: AuthenticatedPluginsStoreRoute,
     AuthenticatedPluginsIndexRoute: AuthenticatedPluginsIndexRoute,
   }
 
@@ -476,6 +509,8 @@ export interface FileRoutesByFullPath {
   '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
   '/plugins/example': typeof AuthenticatedPluginsExampleRoute
+  '/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
+  '/plugins/store': typeof AuthenticatedPluginsStoreRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -502,6 +537,8 @@ export interface FileRoutesByTo {
   '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
   '/plugins/example': typeof AuthenticatedPluginsExampleRoute
+  '/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
+  '/plugins/store': typeof AuthenticatedPluginsStoreRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -532,6 +569,8 @@ export interface FileRoutesById {
   '/(errors)/503': typeof errors503Route
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/plugins/example': typeof AuthenticatedPluginsExampleRoute
+  '/_authenticated/plugins/settings': typeof AuthenticatedPluginsSettingsRoute
+  '/_authenticated/plugins/store': typeof AuthenticatedPluginsStoreRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -563,6 +602,8 @@ export interface FileRouteTypes {
     | '/503'
     | '/'
     | '/plugins/example'
+    | '/plugins/settings'
+    | '/plugins/store'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
@@ -588,6 +629,8 @@ export interface FileRouteTypes {
     | '/503'
     | '/'
     | '/plugins/example'
+    | '/plugins/settings'
+    | '/plugins/store'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
@@ -616,6 +659,8 @@ export interface FileRouteTypes {
     | '/(errors)/503'
     | '/_authenticated/'
     | '/_authenticated/plugins/example'
+    | '/_authenticated/plugins/settings'
+    | '/_authenticated/plugins/store'
     | '/_authenticated/settings/account'
     | '/_authenticated/settings/appearance'
     | '/_authenticated/settings/display'
@@ -699,6 +744,8 @@ export const routeTree = rootRoute
       "parent": "/_authenticated",
       "children": [
         "/_authenticated/plugins/example",
+        "/_authenticated/plugins/settings",
+        "/_authenticated/plugins/store",
         "/_authenticated/plugins/"
       ]
     },
@@ -749,6 +796,14 @@ export const routeTree = rootRoute
     },
     "/_authenticated/plugins/example": {
       "filePath": "_authenticated/plugins/example.tsx",
+      "parent": "/_authenticated/plugins"
+    },
+    "/_authenticated/plugins/settings": {
+      "filePath": "_authenticated/plugins/settings.tsx",
+      "parent": "/_authenticated/plugins"
+    },
+    "/_authenticated/plugins/store": {
+      "filePath": "_authenticated/plugins/store.tsx",
       "parent": "/_authenticated/plugins"
     },
     "/_authenticated/settings/account": {
