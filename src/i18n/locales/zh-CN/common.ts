@@ -1,4 +1,11 @@
 export default {
+    commandMenu: {
+      noResultsFound: '未找到结果',
+      light: '浅色模式',
+      dark: '深色模式',
+      system: '系统模式'
+    },
+
     nav: {
       general: '通用',
       dashboard: '仪表盘',
@@ -19,7 +26,10 @@ export default {
       maintenance: '维护',
       comingSoon: '即将推出',
       pricing: '定价',
-      plugins: '插件',
+      plugins: {
+        title: '插件',
+        pluginManagement: '插件管理',
+      }
     },
     teams: {
       shadcnAdmin: 'Shadcn 管理',
@@ -43,6 +53,26 @@ export default {
       appearance: '外观',
       display: '显示',
       notifications: '通知',
+    },
+    plugins: {
+      title: '插件',
+      pluginManagement: '插件管理',
+      activate: '启用',
+      deactivate: '禁用',
+      uninstall: '卸载',
+      install: '安装',
+      updating: '更新中...',
+      noPluginsFound: '未找到插件',
+      tryChangingFilters: '尝试更改筛选条件或搜索词',
+      installNewPluginToGetStarted: '安装新插件以开始使用',
+      installed: '已安装',
+      store: '插件商店',
+      settings: '设置',
+      version: '版本',
+      management: '插件管理',
+      description: '管理系统中已安装的插件，启用或禁用功能。',
+      goToSettings: '插件设置',
+      open: '打开',
     },
     profile: '个人资料',
     billing: '账单',

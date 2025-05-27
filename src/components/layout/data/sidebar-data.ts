@@ -10,9 +10,9 @@ import {
   IconUsers,
 } from '@tabler/icons-react'
 import { AudioWaveform, Command, GalleryVerticalEnd } from 'lucide-react'
-import { TFunction } from 'i18next'
 import type { NavGroup, NavItem } from '../types'
 import { getPlugins, isPluginActive, MenuGroup } from '@/core/plugin-system'
+import type { TFunction } from 'i18next'
 
 export const getSidebarData = (t: TFunction) => {
   // 获取所有已注册的插件
@@ -29,7 +29,7 @@ export const getSidebarData = (t: TFunction) => {
   
   // 添加插件管理入口到插件分组
   menuItemsByGroup.get(MenuGroup.PLUGINS)?.push({
-    title: t('nav.pluginManagement') || '插件管理',
+    title: t('nav.plugins.pluginManagement') || '插件管理',
     url: '/plugins',
     icon: IconBrowserCheck,
   });
@@ -174,7 +174,7 @@ export const getSidebarData = (t: TFunction) => {
     },
     // 插件菜单组
     ...(menuItemsByGroup.get(MenuGroup.PLUGINS)?.length ? [{
-      title: t('nav.plugins') || 'Plugins',
+      title: t('nav.plugins.title') || 'Plugins',
       items: (menuItemsByGroup.get(MenuGroup.PLUGINS) || []) as unknown as NavItem[],
     }] : []),
     {

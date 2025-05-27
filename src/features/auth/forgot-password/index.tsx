@@ -9,18 +9,19 @@ import {
 } from '@/components/ui/card'
 import AuthLayout from '../auth-layout'
 import { ForgotPasswordForm } from './components/forgot-password-form'
+import { useTranslation } from 'react-i18next'
 
 export default function ForgotPassword() {
+  const { t } = useTranslation('auth')
   return (
     <AuthLayout>
       <Card className='gap-4'>
         <CardHeader>
           <CardTitle className='text-lg tracking-tight'>
-            Forgot Password
+            {t('forgotPassword.title')}
           </CardTitle>
           <CardDescription>
-            Enter your registered email and <br /> we will send you a link to
-            reset your password.
+            {t('forgotPassword.description')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -28,12 +29,12 @@ export default function ForgotPassword() {
         </CardContent>
         <CardFooter>
           <p className='text-muted-foreground px-8 text-center text-sm'>
-            Don't have an account?{' '}
+            {t('forgotPassword.footer')}
             <Link
               to='/sign-up'
               className='hover:text-primary underline underline-offset-4'
             >
-              Sign up
+              {t('forgotPassword.signUp')}
             </Link>
             .
           </p>

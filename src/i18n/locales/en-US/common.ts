@@ -1,4 +1,10 @@
 export default {
+    commandMenu: {
+      noResultsFound: 'No results found',
+      light: 'Light',
+      dark: 'Dark',
+      system: 'System'
+    },
     nav: {
       general: 'General',
       dashboard: 'Dashboard',
@@ -15,7 +21,10 @@ export default {
       maintenance: 'Maintenance',
       comingSoon: 'Coming Soon',
       pricing: 'Pricing',
-      plugins: 'Plugins',
+      plugins: {
+        title: 'Plugins',
+        pluginManagement: 'Plugin Management',
+      }
     },
     teams: {
       shadcnAdmin: 'Shadcn Admin',
@@ -45,5 +54,24 @@ export default {
     billing: 'Billing',
     newTeam: 'New Team',
     logOut: 'Log Out',
-    
+    plugins: {
+      title: 'Plugins',
+      pluginManagement: 'Plugin Management',
+      activate: 'Activate',
+      deactivate: 'Deactivate',
+      uninstall: 'Uninstall',
+      install: 'Install',
+      updating: 'Updating...',
+      noPluginsFound: 'No plugins found',
+      tryChangingFilters: 'Try changing filters or search terms',
+      installNewPluginToGetStarted: 'Install a new plugin to get started',
+      installed: 'Installed',
+      store: 'Plugin Store',
+      settings: 'Plugin Settings',
+      version: 'Version',
+      management: 'Plugin Management',
+      description: 'Manage installed plugins, enable or disable features.',
+      goToSettings: 'Go to Settings',
+      open: 'Open'
+    }
   } as const

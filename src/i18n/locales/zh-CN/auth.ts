@@ -32,5 +32,13 @@ export default {
     "orContinueWith": "或继续使用",
     "byCreatingAnAccountYouAgreeToOur": "创建账号即表示您同意我们的 ",
     "and": "和",
+    },
+    "forgotPassword": {
+    "title": "忘记密码",
+    "description": "请输入您的注册邮箱，我们将会发送一封重置密码的链接。",
+    "footer": "没有账号？",
+    "signUp": "注册",
+    "continue": "继续",
+    "email": "邮箱",
     }
 }

@@ -31,5 +31,13 @@ export default {
     orContinueWith: "Or Continue With",
     byCreatingAnAccountYouAgreeToOur: "By creating an account, you agree to our ",
     and: "and",
+    },
+    forgotPassword: {
+    title: "Forgot Password",
+    description: "Enter your registered email and <br /> we will send you a link to reset your password.",
+    footer: "Don't have an account?",
+    signUp: "Sign up",
+    continue: "Continue",
+    email: "Email",
     }
 }

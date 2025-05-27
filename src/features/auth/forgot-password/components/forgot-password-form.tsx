@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { useTranslation } from 'react-i18next'
 
 type ForgotFormProps = HTMLAttributes<HTMLFormElement>
 
@@ -25,7 +26,7 @@ const formSchema = z.object({
 
 export function ForgotPasswordForm({ className, ...props }: ForgotFormProps) {
   const [isLoading, setIsLoading] = useState(false)
-
+  const { t } = useTranslation('auth')
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: { email: '' },
@@ -53,7 +54,7 @@ export function ForgotPasswordForm({ className, ...props }: ForgotFormProps) {
           name='email'
           render={({ field }) => (
             <FormItem className='space-y-1'>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t('forgotPassword.email')}</FormLabel>
               <FormControl>
                 <Input placeholder='name@example.com' {...field} />
               </FormControl>
@@ -62,7 +63,7 @@ export function ForgotPasswordForm({ className, ...props }: ForgotFormProps) {
           )}
         />
         <Button className='mt-2' disabled={isLoading}>
-          Continue
+          {t('forgotPassword.continue')}
         </Button>
       </form>
     </Form>

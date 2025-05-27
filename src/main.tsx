@@ -15,15 +15,19 @@ import { ThemeProvider } from './context/theme-context'
 import './index.css'
 // Generated Routes
 import { routeTree } from './routeTree.gen'
-import { registerPlugin, activateAllPlugins } from './core/plugin-system'
-import '@/i18n/config'
+import { registerPlugin, activateAllPlugins, activatePlugin } from './core/plugin-system'
+import i18n from '@/i18n/config'
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: (failureCount, error) => {
-        // eslint-disable-next-line no-console
-        if (import.meta.env.DEV) console.log({ failureCount, error })
+        // 在开发环境中记录重试信息
+        if (import.meta.env.DEV) {
+          // 使用控制台输出重试信息，因为这里不能使用await
+          // eslint-disable-next-line no-console
+          console.debug('API请求重试', { failureCount, error });
+        }
 
         if (failureCount >= 0 && import.meta.env.DEV) return false
         if (failureCount > 3 && import.meta.env.PROD) return false
@@ -80,22 +84,66 @@ const router = createRouter({
 // 加载插件
 async function loadPlugins() {
   try {
-    // 动态导入插件
+    // 预先加载示例插件的翻译资源
+    const exampleI18n = (await import('./features/plugins/example/i18n')).default;
+    
+    // 手动注册翻译资源
+    const { namespace, resources } = exampleI18n;
+    Object.entries(resources).forEach(([lng, translations]) => {
+      if (translations) {
+        // 确保翻译资源已加载
+        i18n.addResourceBundle(lng, namespace, translations, true, true);
+      }
+    });
+    
+    // 确保命名空间已添加
+    if (!i18n.options.ns?.includes(namespace)) {
+      i18n.loadNamespaces(namespace);
+    }
+    
+    // 导入示例插件
+    const examplePluginFactory = (await import('./features/plugins/example')).default;
+    
+    // 创建插件翻译函数工厂
+    const createPluginTranslator = (pluginId: string) => {
+      return (key: string, defaultValue?: string) => {
+        // 使用插件ID作为命名空间
+        return i18n.t(key, { defaultValue, ns: pluginId });
+      };
+    };
+    
+    // 注册示例插件
+    const examplePlugin = examplePluginFactory(createPluginTranslator('example'));
+    await registerPlugin(examplePlugin);
+    
+    // 激活示例插件
+    await activatePlugin('example');
+    
+    const { pluginLogger } = await import('./utils/logger');
+    pluginLogger.info('示例插件已加载');
+    
+    // 动态导入其他插件（如果有）
     const pluginModules = import.meta.glob('./plugins/*/index.ts', { eager: true }) as Record<
       string,
       { default: any }
     >;
     
-    // 注册所有插件
+    // 注册所有其他插件
     for (const path in pluginModules) {
-      const plugin = pluginModules[path].default;
+      const pluginFactory = pluginModules[path].default;
+      // 从路径中提取插件ID
+      const pathMatch = path.match(/\.\/plugins\/([^/]+)/);
+      const pluginId = pathMatch ? pathMatch[1] : 'unknown';
+      const plugin = pluginFactory(createPluginTranslator(pluginId));
       registerPlugin(plugin);
     }
     
     // 激活所有插件
     await activateAllPlugins();
   } catch (error) {
-    console.error('Failed to load plugins:', error);
+    const { pluginLogger } = await import('./utils/logger');
+    const err = error instanceof Error ? error.message : String(error);
+    pluginLogger.error(`加载插件失败: ${err}`);
   }
 }
 
